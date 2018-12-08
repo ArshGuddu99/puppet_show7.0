@@ -1,7 +1,7 @@
 // defines pins numbers
 #include<SD.h>
 #include<SPI.h>
-#include<Stepper.h>
+#include<AccelStepper.h>
 /*
 Arduino MEGA 
 MOSI -51
@@ -61,12 +61,12 @@ void setup() {
   return;
  }
  //initialize the stepper motors using the library
- Stepper a(200, a_1,a_2,a_3,a_4);
- Stepper b(200, b_1,b_2,b_3,b_4);
- Stepper c(200, c_1, c_2, c_3, c_4);
- Stepper d(96, d_1, d_2, d_3, d_4);
+ AccelStepper a(AccelStepper::FULL4WIRE, a_1,a_2,a_3,a_4);
+ AccelStepper b(AccelStepper::FULL4WIRE, b_1,b_2,b_3,b_4);
+ AccelStepper c(AccelStepper::FULL4WIRE, c_1, c_2, c_3, c_4);
+ AccelStepper d(AccelStepper::FULL4WIRE, d_1, d_2, d_3, d_4);
 
- //set a maximum speed for each of these motors
+ //set a maximum speed for each of these motors, for a start
  a.setMaxSpeed(200);
  b.setMaxSpeed(200);
  c.setMaxSpeed(200);
@@ -77,13 +77,10 @@ void setup() {
  b.setAcceleration(500);
  c.setAcceleration(500);
  d.setAcceleration(500);
-
- 
- 
 }
 
 void zeros()  //make all values in array zero, to avoid junk errors
-{for(int i=0;i<15;i++){
+{for(int i=0;i<8;i++){
   file_read[i]=0;
 }
 }
@@ -98,15 +95,6 @@ void arrtoint(int i){   // convert the values read from the array in character f
     }
 }
 
-void maximum(){
-  int j=0;
-  while(j<=14){
-    if(max_time<file_read[j])
-    max_time=file_read[j];
-    j+=3;
-}}
-
-
 void loop() {
   zeros();
   while(myFile.available()){
@@ -114,13 +102,23 @@ void loop() {
     arrtoint(j);
     Serial.println(file_read[j]);
   }
+  //set the maximum speeds for each of the motors as read from the file
+  a.setMaxSpeed(file_read[1]);
+  b.setMaxSpeed(file_read[3]);
+  c.setMaxSpeed(file_read[5]);
+  d.setMaxSpeed(file_read[7]);
+
+  //set the target position for each of the motors
   a.move(file_read[0]);
   b.move(file_read[2]);
   c.move(file_read[4]);
   d.move(file_read[6]);
+
+  //give the run command
   a.run();
   b.run();
   c.run();
   d.run();
-//delay(1000);
+  
+  //delay(1000);
 }}
