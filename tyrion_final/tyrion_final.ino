@@ -10,14 +10,14 @@ SCK - 52
 CS - 53 
 */
  
-const int a_1= 10;
-const int a_2= 9;
-const int a_3= 8;
-const int a_4= 7;
-const int b_1= A4;
-const int b_2= A3;
-const int b_3= A2;
-const int b_4= A1;
+const int a_1= A0;
+const int a_2= A1;
+const int a_3= A2;
+const int a_4= A3;
+const int b_1= 6;
+const int b_2= 7;
+const int b_3= 8;
+const int b_4= 9;
 int j;
  AccelStepper a(AccelStepper::FULL4WIRE, a_1, a_2, a_3, a_4);
  AccelStepper b(AccelStepper::FULL4WIRE, b_1, b_2, b_3, b_4);
@@ -43,7 +43,7 @@ void setup() {
     return;
   }
  Serial.println("Initialization successful");
- myFile=SD.open("Tyrion.txt",FILE_READ);  //Open the required file from the SD card
+ myFile=SD.open("Sherlock.txt",FILE_READ);  //Open the required file from the SD card
  if(!myFile){   //Check if the file has opened properly
   Serial.println("File opening failed");
   return;
@@ -74,20 +74,20 @@ void arrtoint(int i){   // convert the values read from the array in character f
        else
         break;
     }
+if(file_read[i]%10==9){
+  file_read[i]/=(-100);
+ }
 }
 
 void loop() {
   if(a.distanceToGo()==0 && b.distanceToGo()==0){
   zeros();
   j=0;
-  while(myFile.available()&& j<4){
+  while(myFile.available() && j<4){
   for (j=0;j<4;j++){
     arrtoint(j);
     Serial.println(file_read[j]);
   }}
-  if(!myFile.available()){
-    Serial.println("END");
-  }
   //set the maximum speeds for each of the motors as read from the file
   if(file_read[0]!=12345){
   a.setMaxSpeed(file_read[1]);
@@ -97,14 +97,14 @@ void loop() {
   a.move(file_read[0]);
   b.move(file_read[2]);
 
-  Serial.println("motor 1:Max Speed:");
+ /* Serial.println("motor 1:Max Speed:");
   Serial.print(file_read[1]);
   Serial.println("motor 1: Target pos: ");
   Serial.print(file_read[0]);
   Serial.println("motor 2: Max Speed: ");
   Serial.print(file_read[3]);
   Serial.println("motor 2:  Target pos: ");
-
+*/
   }}
 
   if(file_read[0]!=12345){
@@ -115,5 +115,5 @@ void loop() {
 
   else
     delay(file_read[1]);
-  Serial.println("Next");
+//  Serial.println("Next");
 }
