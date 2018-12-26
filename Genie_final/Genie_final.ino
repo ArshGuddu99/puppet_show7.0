@@ -74,6 +74,10 @@ void arrtoint(int i){   // convert the values read from the array in character f
        else
         break;
     }
+      if(file_read[i]%10==9){
+    file_read[i]*=-1;
+    file_read[i]/=100;
+   }
 }
 
 void loop() {
