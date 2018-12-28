@@ -1,0 +1,16 @@
+]required motion in horizontal direction = 37 cm
+in 1 complete rotation, belt length of 2*2*pi*0.5 cm=6.28 cm is set free
+hence to move by 37 cm, the motor needs to rotate 37/6.28=5.89 times complete times 
+Hence angle required to rotate= 5.89* 2*pi= 2120.4 degrees
+Each step of the stepper motor, by some miracle, is 0.9 degrees
+Hence, to rotate 4240.8 degrees, the number of steps required is 2356
+Hence, approximately, 2400 steps
+
+Approximate time to be spent in traversing horizontally = 10 seconds
+t=sqrt(2*s/a) => a=2*s/t^2 Hence, approximate acceleration= 50 steps/(sec^2)
+Maximum speed u=Sqrt(2*s*a)= 489 steps/sec
+Hence, appproximate value =500 steps/sec;
+
+move value = 2400
+Max_speed =500
+accel = 50
