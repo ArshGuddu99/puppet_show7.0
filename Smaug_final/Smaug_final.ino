@@ -43,7 +43,7 @@ void setup() {
     return;
   }
  Serial.println("Initialization successful");
- myFile=SD.open("smaug.txt",FILE_READ);  //Open the required file from the SD card
+ myFile=SD.open("smaug",FILE_READ);  //Open the required file from the SD card
  if(!myFile){   //Check if the file has opened properly
   Serial.println("File opening failed");
   return;
@@ -95,6 +95,8 @@ void loop() {
   }
   //set the maximum speeds for each of the motors as read from the file
   if(file_read[0]!=12345){
+   a.enableOutputs();
+   b.enableOutputs();
   a.setMaxSpeed(file_read[1]);
   b.setMaxSpeed(file_read[3]);
 
@@ -118,6 +120,10 @@ void loop() {
   b.run();
  }
 
-  else
-    delay(file_read[1]);
+  else{ 
+        a.disableOutputs();
+        b.disableOutputs();
+        delay(file_read[1]);
+  }
+
 }

@@ -14,10 +14,10 @@ const int a_1= A0;
 const int a_2= A1;
 const int a_3= A2;
 const int a_4= A3;
-const int b_1= 6;
-const int b_2= 7;
-const int b_3= 8;
-const int b_4= 9;
+const int b_1= 7;
+const int b_2= 8;
+const int b_3= 9;
+const int b_4= 10;
 int j;
  AccelStepper a(AccelStepper::FULL4WIRE, a_1, a_2, a_3, a_4);
  AccelStepper b(AccelStepper::FULL4WIRE, b_1, b_2, b_3, b_4);
@@ -43,7 +43,7 @@ void setup() {
     return;
   }
  Serial.println("Initialization successful");
- myFile=SD.open("Sherlock.txt",FILE_READ);  //Open the required file from the SD card
+ myFile=SD.open("tyrion",FILE_READ);  //Open the required file from the SD card
  if(!myFile){   //Check if the file has opened properly
   Serial.println("File opening failed");
   return;
@@ -75,12 +75,12 @@ void arrtoint(int i){   // convert the values read from the array in character f
         break;
     }
 if(file_read[i]%10==9){
-  file_read[i]/=(-100);
+  file_read[i]/=(-10);
  }
 }
 
 void loop() {
-  if(a.distanceToGo()==0 && b.distanceToGo()==0){
+  if(!a.distanceToGo() && !b.distanceToGo()){
   zeros();
   j=0;
   while(myFile.available() && j<4){
@@ -90,6 +90,8 @@ void loop() {
   }}
   //set the maximum speeds for each of the motors as read from the file
   if(file_read[0]!=12345){
+  a.enableOutputs();
+  b.enableOutputs();
   a.setMaxSpeed(file_read[1]);
   b.setMaxSpeed(file_read[3]);
 
@@ -113,7 +115,267 @@ void loop() {
   b.run();
  }
 
-  else
-    delay(file_read[1]);
+  else{
+    a.disableOutputs();
+    b.disableOutputs();
+    delay(file_read[1]);}
+    
 //  Serial.println("Next");
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
